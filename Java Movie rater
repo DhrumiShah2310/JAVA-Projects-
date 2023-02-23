@@ -1,0 +1,44 @@
+import java.util.Scanner;
+import java.util.InputMismatchException; 
+
+
+/**
+ * 
+ */
+
+/**
+ * @author Dhrumi
+ *
+ */
+public class getUserChoice {
+
+	public static int getUserChoice(Scanner readInput ){
+		
+		int inputInt = 0;
+		System.out.println("Welcome to sorting program\n\n\t1. Title\n\t2. Rank\n\t3. Date\n\t4. Stars\n\t5. Likes\n\n ");
+		do { // Loop until we have correct input
+			System.out.print("Enter your choice between 1 and 5 only: ");
+			try {
+			inputInt = readInput.nextInt();
+			// waits for user input
+			if (inputInt >= 1 && inputInt <= 5) {
+			break; // Got it, done
+			} else {
+			System.out.println("You have not entered a number between 1 and 5. Try again.");
+			readInput.nextLine(); // discard rest of the input
+			continue;
+			// continue looping as it is wrong number
+			}
+			} catch (final InputMismatchException e) {
+			System.out.println("You have entered an invalid choice. Try again.");
+			readInput.nextLine(); // discard non-int input
+			continue;
+			}
+		    } while (true);
+		    System.out.println("\nYou entered valid choice " + inputInt); //to ensure the output is correctly entered by user 
+		    System.out.println("Thank you for giving your choice");
+			// keep looping until you found right one
+			return inputInt ; 
+			}	 
+	
+}
