@@ -1,0 +1,85 @@
+import java.util.Scanner; 
+
+/**
+ * 
+ */
+
+/**
+ * @author Dhrumi
+ *
+ */
+public class weeklyTemp {
+
+	//hard coded temperatures added 
+	   /* int [] weeklyTemp = {69,70,71,68,66,71,70}; //7 elements; 0-6 index; 0 based index*/ 
+
+    // 8 a)
+	//to get temperatures from user 
+	static void getTemperatures(int [] tempArray) {
+		Scanner getInput = new Scanner (System.in);
+		int day; 
+		for (day =0; day < tempArray.length ; day++) {
+		      System.out.printf("Enter the temperature:   \n");//curly braces are important here 
+		      tempArray[day]= getInput.nextInt();  
+		      }
+	          }
+	 //8 b)
+	 //to print the temperatures day wise 
+     static void printTemperatures (int []tempArray) {
+	    int day; 
+	    for (day =0; day <tempArray.length; day++) 
+        System.out.printf("the temperature on day %d was: %d\n", day+1,tempArray[day]); 	
+        System.out.println(); 
+             }
+
+     // 8 c) 
+     //for max temperature 
+     static int  getMax (int [] tempArray) {
+	   int max = tempArray[0]; 
+	   int day; 
+	   for (day = 1; day < tempArray.length; day++) {
+	   if (max < tempArray [day])
+	 		max = tempArray [day];
+	 	}
+	   return max; 	
+        }
+
+     //8 d)
+     //for min temperature
+   static  int getMin (int [] tempArray) {
+     int min =tempArray[0];  
+     int day; 
+     for(day = 1; day < tempArray.length; day ++) {
+     if (min > tempArray[day])
+		   min = tempArray[day]; 
+	    } 
+     return min; 
+      }
+
+     // 8 e)
+     // to get total of all temperatures 
+     static int  getAverage (int [] tempArray) {
+   	  int day; 
+   	  float total = 0, average;  
+   	  for (day=1; day < tempArray.length; day ++)
+   		total += tempArray[day]; 
+   	    average = total / tempArray.length; 
+   	  return (int) average; 
+   	}
+     // 8 f)
+     // to get all statistics 
+     static void printStatistics(int[] tempArray) {
+
+    	 System.out.printf("The minimum temperature is: %d\n", getMin(tempArray)); 
+    	 System.out.printf("The maximum temperature is: %d\n", getMax(tempArray)); 
+    	 System.out.printf("The average temperature is: %d\n", getAverage(tempArray)); 
+
+     }
+     public static void main(String[] args) {
+    	 System.out.println("\nCall all the methods.");
+    			int [] tempArray = new int[7];
+    			getTemperatures(tempArray);
+    			printTemperatures(tempArray);
+    			printStatistics(tempArray); 
+     }
+     }
