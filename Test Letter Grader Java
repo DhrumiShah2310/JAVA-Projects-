@@ -1,0 +1,188 @@
+import java.util.Scanner; 
+import java.util.ArrayList; 
+import java.io.PrintWriter; 
+import java.io.File; 
+import java.io.IOException; 
+/**
+ * 
+ */
+
+/**
+ * @author Dhrumi
+ *
+ */
+ class LetterGrader { //this is the method that will be used by TestLetterGrader in main 
+	 private String inputFileName; //the input file is string 
+	 private String outputFileName; //the output file is string and thus defined 
+	 //mentioning all the parameters of the student's info 
+	 private ArrayList <String> studentName; //the details of students all fall under arrayList
+	 private ArrayList <Double> quiz1;
+	 private ArrayList <Double> quiz2;
+	 private ArrayList <Double> quiz3;
+	 private ArrayList <Double> quiz4;
+	 private ArrayList <Double> midterm1;
+	 private ArrayList <Double> midterm2;
+	 private ArrayList <Double> finalExam;
+	 private ArrayList <String> grade; //grade is the mandatory factor and since its a letter we use string option to define it 
+
+	 //now we will begin with giving input output file information 
+	 LetterGrader(String inputFileName, String outputFileName) {
+		 this.inputFileName = inputFileName;
+		 this.outputFileName = outputFileName;
+		 studentName = new ArrayList<String>();
+		 quiz1 = new ArrayList<Double>(); //defining all parameters as objects for the program 
+		 quiz2 = new ArrayList<Double>();
+		 quiz3 = new ArrayList<Double>();
+		 quiz4 = new ArrayList<Double>();
+		 midterm1 = new ArrayList<Double>();
+		 midterm2 = new ArrayList<Double>();
+		 finalExam = new ArrayList<Double>();
+		 grade = new ArrayList<String>();
+     	 }
+	 //now we have to create a method that will read scores
+	 public void readScore() { //using  the name readScore as mentioned in the hint given in assignment question 
+		//call method to process command line arguments
+		File inputFile = new File(inputFileName);
+		if (!inputFile.exists()) {
+		System.out.println("Input File " + inputFileName + " does not exist.");
+		System.exit(2);
+		}
+		try { //to catch errors we will use try catch method 
+			Scanner input = new Scanner(inputFile); //input to be taken from inputfile 
+			while (input.hasNextLine()) {
+				String line = input.nextLine();
+				//studentScores represents the string that has all the info about the students 
+				String[] studentScores = line.split(","); //split the input after the commas 
+				studentName.add(studentScores[0]); //giving index numbers to each object 
+				quiz1.add(Double.parseDouble(studentScores[1])); //using the parse double function 
+				quiz2.add(Double.parseDouble(studentScores[2])); //this will return us a new double initialized to the value represented by that string 
+				quiz3.add(Double.parseDouble(studentScores[3]));
+				quiz4.add(Double.parseDouble(studentScores[4]));
+				midterm1.add(Double.parseDouble(studentScores[5]));
+				midterm2.add(Double.parseDouble(studentScores[6]));
+				finalExam.add(Double.parseDouble(studentScores[7]));
+				}
+			    input.close(); //close the input after each student's information is done 
+		        } catch(IOException e){ //catch the exceptions and give the output on screen as follows 
+		    	System.out.println("Cannot read input from file: "+ inputFile) ; 
+		        }
+	            }
+	        //using a calculator that helps in stuffing the grading information and rubrics
+			public void calcLetterGrader() {
+				int i; //i represents input 
+				double total; //total score 
+				for (i = 0; i < studentName.size(); i ++) {
+					total = quiz1.get(i) * .10 + quiz2.get(i) * .10 + quiz3.get(i) * .10 + quiz4.get(i) * .10 + midterm1.get(i) * .20 + midterm2.get(i) * .15 + finalExam.get(i) * .25;
+					if (total >= 90) {
+						grade.add("A");
+						}
+						else if (total >= 80) {
+						grade.add("B");
+						}
+						else if (total >= 70) {
+						grade.add("C");
+						}
+						else if (total >= 60) {
+						grade.add("D");
+						}
+						else if (total >= 50) {
+						grade.add("F");
+						}
+						}
+						}
+         // to specify all names and grades of each student but this is private, need not show it to user 
+			private void studentNames() { //name given as per assignment question 
+				int i; //i means input 
+				int o; //o means output 
+				for (i = 0; i < studentName.size(); i ++) { //adding conditions using for
+				for (o = i + 1; o < studentName.size(); o ++) {
+				if (studentName.get(i).compareTo(studentName.get(o)) > 0) {
+				String x = studentName.get(i); //defining string x that will read input value i 
+				studentName.set(i, studentName.get(o));
+				studentName.set(o, x); 
+				x = grade.get(i);
+				grade.set(i, grade.get(o));
+				grade.set(o, x); //grade will be printed alongside 
+				}
+				}
+				}
+				}	
+			//to print grades of each student in the output file 
+			public void printGrade() {
+			studentNames();  //calling in the method 
+			File outputFile = new File(outputFileName); // creating the outputFile 
+			try {
+			PrintWriter output = new PrintWriter(outputFile);	
+			output.printf("Letter grade for %s students given in %s file is: ", studentName.size() , inputFileName); //title 
+			output.println(""); //extra line space 
+			for (int i = 0; i < studentName.size(); i ++) {
+				output.println(studentName.get(i) + ":         " + grade.get(i)); //to get the user output as follows 
+			}
+			output.close(); // close the output 
+			}
+			catch (IOException e) {
+			System.out.println("Cannot write into outputfile" + e);
+			}
+			}
+		private double[] calculateAvg (ArrayList<Double> list) { //this is a private method to calculate averages and min max 
+				double sum = 0;
+				double min = list.get(0);
+				double max = list.get(0);
+				double [] answer = new double[3];
+				for (int i = 0; i < list.size(); i ++) {
+
+				sum += list.get(i); 
+				if (list.get(i) < min) {  //to get minimum 
+					min = list.get(i);
+					}
+				if (list.get(i) > max) {  //to get maximum 
+					max = list.get(i);
+					}
+					}
+			double average = sum/list.size(); //formula to find average 
+			answer[0] = average; 
+			answer[1] = min; 
+			answer[2] = max; 
+			return answer; 
+			}
+	 //creating a class to display the average and min max 
+		public void displayAverages() {
+			double[] quiz1Scores = calculateAvg(quiz1);
+			double[] quiz2Scores = calculateAvg(quiz2);
+			double[] quiz3Scores = calculateAvg(quiz3);
+			double[] quiz4Scores = calculateAvg(quiz4);
+			double[] midterm1Scores = calculateAvg(midterm1);
+			double[] midterm2Scores = calculateAvg(midterm2);
+			double[] finalExamScores = calculateAvg(finalExam);
+
+			System.out.println("\nLetter grade has been calculated for students listed in input file " + inputFileName + " and written into output file " + outputFileName);
+			System.out.println("\nHere is the class averages: ");
+			System.out.println("\n\t quiz1\t\t quiz2\t\t quiz3\t\t quiz4\t\t mid1\t\t mid2\t\t finalExam\n");
+			//specifying the placement of each parameter 
+			System.out.printf("Average: " + "          ", quiz1Scores[0]+ "\t" + quiz2Scores[0]+ "\t" + quiz3Scores[0] + "\t" + quiz4Scores[0] + "\t" + midterm1Scores[0] + "\t" + midterm2Scores[0] + "\t" + finalExamScores[0]);
+		    System.out.printf(" ");//adding space 
+			System.out.printf("Minimum: " + "          ", quiz1Scores[1] + "\t" + quiz2Scores[1] + "\t" + quiz3Scores[1] + "\t" + quiz4Scores[1] + "\t" + midterm1Scores[1] + "\t" + midterm2Scores[1] + "\t" + finalExamScores[1]);
+			System.out.printf(" ");//adding space 
+			System.out.printf("Maximum: " + "          ", quiz1Scores[2] + "\t" + quiz2Scores[2] + "\t" + quiz3Scores[2]+ "\t" + quiz4Scores[2] + "\t" +  midterm1Scores[2] + "\t" +  midterm2Scores[2] + "\t" + finalExamScores[2]);
+			System.out.printf(" ");//adding space 
+		}
+		//create a method to clean up and close ongoing files 
+		public void doCleanUp() {
+		Scanner input = new Scanner(System.in);
+		System.out.println("\nPress enter key to continue....");
+		input.nextLine();
+		input.close(); //close it afterwards 
+		}
+
+  //calling all methods to do the work 
+	 public static void main (String []args) {
+
+			 LetterGrader letterGrader = new LetterGrader(args[0], args[1]); //args 0 is input & args 1 is output 	 
+			 letterGrader.readScore(); //to read scores from input file 
+			 letterGrader.calcLetterGrader(); //to give a grade 
+			 letterGrader.printGrade(); //to print the grades on output file 
+			 letterGrader.displayAverages(); //to display average, min and max 
+			 letterGrader.doCleanUp(); //to close files and other resources 
+			 }
+	 }//end of class 
+	 // end of code 
