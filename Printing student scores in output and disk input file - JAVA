@@ -1,0 +1,75 @@
+import java.io.File; 
+import java.io.PrintWriter; 
+import java.util.Scanner; 
+import java.io.IOException;
+/**
+ * 
+ */
+
+/**
+ * @author Dhrumi
+ *
+ */
+public class DiskIO {
+	//9.1) create a method named processCLArguments 
+	static void processCLArguments(String[] args) {
+		//if the command args contains less than two strings, it displays the message like this
+		if (args.length < 2) {
+		 System.out.println("Usage: java DiskIO inputFile outputFile "); 
+		 System.exit(1);
+		} else { //If the arguments contains input and output file names it displays the message like so 
+		 System.out.println("Input will be read from:"+ args[0] + "\nOutput will be written into: " +  args[1]);
+		 System.out.println();
+		}
+	}
+	//9.2) create a method named processInputOutputFiles to process the files and display input 
+	static void processInputOutputFiles(
+			 String[] args) {
+			// calling the method to run the program 
+			File inputFile = new File(args[0]);
+			if (!inputFile.exists()) {
+			System.out.println("Input file " +  args[0] + " does not exist"); //trap error and if a file does not exist it will display this output 
+			System.exit(2);
+			}
+			// Output file
+			File outputFile = new File(args[1]); //output file is args[1]
+			try {
+				Scanner input = new Scanner(inputFile); //new input file has been made 
+				PrintWriter output = new  //bringing in print writer for output to be printed 
+				PrintWriter(outputFile);
+				int i = 1; //i represents input data 
+				while (input.hasNextLine()) {
+				String num = input.nextLine(); // num is the array if scores 
+				System.out.println("Student #: " + i + " " + num ); //output to be displayed on screen 
+				 //use split to split the data given in input file 
+				String[] studentScore = num.split(","); //  print data in output file
+				output.print("Student #" + i ++ + " is: " + studentScore[0] + " whose raw scores are: ");
+				for (int o = 1; o < studentScore.length;  o ++) // o represents output 
+				output.print(studentScore[o] + ": "); //print the raw scores with semicolon 
+				output.println();  //for new line for each student and their score 
+				}
+				input.close(); // close the input and output after using 
+				output.close(); 
+				} catch (IOException e) { //catching errors so user knows that there is a problem occuring 
+				System.out.println("Cannot read from input file: " + args[0]); //args[0] is used because it is the input file 
+				}
+	            }
+		public static void main(String[] args) {
+			// calling the method to perform the operation 
+			processCLArguments(args); 
+			processInputOutputFiles(args);
+
+
+	   /*9.3) a) How do you supply these arguments to your program
+			//b) How do you process these arguments in your program 
+
+			//Go to file and then on properties. 
+			Click on the file you want to make changes to for eg: DiskIO in HW#9 
+			Then click on edit. 
+			Go to arguments option and type the name of the file from which the input needs to be read. 
+			Then import the input file according the path of the file and its project.
+			Here I imported the "file input_final.txt" to the homework project folder. 
+			Then I ran the program and thats how we can supply and process the arguments in our program.*/
+
+			 } //end of method 
+			} //end of class 
